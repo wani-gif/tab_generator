@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlphaTab Live Editor</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@coderline/alphatab@latest/dist/alphaTab.min.js"></script>
+</head>
+<body>
+
+    <div id="editor-container">
+        <div class="header-row">
+            <h2>AlphaTex Input</h2>
+            <button id="copy-btn">すべてコピー</button>
+        </div>
+        <textarea id="source" spellcheck="false">
+\title "Transcription"
+\tempo 120
+.
+:8 3.5 2.4 0.3 1.2 (2.1 0.3) 3.2 2.2 2.2 |
+:8 (3.4 0.1) 1.2 2.3 0.1 :16 (0.2 0.5) 1.2 :8 2.3 0.5 2.5 |
+:8 3.5 2.4 0.3 1.2 0.4 2.3 3.2 2.1 |
+:8 (3.4 2.3 1.2 0.1) (3.4 2.3 1.2 0.1) :2 (3.4 2.3 1.2 0.1) :4 r |
+        </textarea>
+        <p><small>変更すると下に反映されます。</small></p>
+    </div>
+
+    <div id="render-container">
+        <div id="alphaTab"></div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
