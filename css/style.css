@@ -7,7 +7,9 @@ body {
     overflow: hidden;
 }
 
-/* 上段：入力エリア (画面の35%) */
+/* --- PC向けの基本設定 --- */
+
+/* 上段：入力エリア (PCは35%) */
 #editor-container {
     height: 35%;
     width: 100%;
@@ -19,7 +21,6 @@ body {
     background: #f4f4f4;
 }
 
-/* ヘッダー部分 */
 .header-row {
     display: flex;
     justify-content: space-between;
@@ -33,7 +34,6 @@ h2 {
     color: #333;
 }
 
-/* コピーボタンのデザイン */
 #copy-btn {
     padding: 5px 15px;
     font-size: 0.9rem;
@@ -45,13 +45,8 @@ h2 {
     transition: background-color 0.2s;
 }
 
-#copy-btn:hover {
-    background-color: #0056b3;
-}
-
-#copy-btn:active {
-    background-color: #004494;
-}
+#copy-btn:hover { background-color: #0056b3; }
+#copy-btn:active { background-color: #004494; }
 
 textarea {
     flex-grow: 1;
@@ -63,7 +58,7 @@ textarea {
     border-radius: 4px;
 }
 
-/* 下段：表示エリア */
+/* 下段：表示エリア (PCは残り65%) */
 #render-container {
     height: 65%;
     width: 100%;
@@ -71,4 +66,23 @@ textarea {
     padding: 20px;
     box-sizing: border-box;
     background-color: #fff;
+}
+
+/* --- スマホ向けの調整 (画面幅が768px以下の場合) --- */
+@media screen and (max-width: 768px) {
+    /* スマホは上下を半々にする */
+    #editor-container {
+        height: 50%;
+        padding: 10px; /* パディングを少し狭く */
+    }
+    #render-container {
+        height: 50%;
+        padding: 10px; /* パディングを少し狭く */
+    }
+    h2 {
+        font-size: 1rem; /* タイトル文字を少し小さく */
+    }
+    textarea {
+        font-size: 16px; /* スマホで入力しやすい文字サイズ */
+    }
 }
