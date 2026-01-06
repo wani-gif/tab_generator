@@ -2,9 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const wrapper = document.getElementById('alphaTab');
     const textarea = document.getElementById('source');
     const copyBtn = document.getElementById('copy-btn');
-    const saveBtn = document.getElementById('save-btn'); // 追加
+    const saveBtn = document.getElementById('save-btn');
+    const expandBtn = document.getElementById('expand-btn');
+    const renderContainer = document.getElementById('render-container');
 
     // --- 1. ボタン機能 ---
+    
     // コピーボタン
     if (copyBtn && textarea) {
         copyBtn.addEventListener('click', () => {
@@ -18,27 +21,48 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 画像保存ボタン（新機能）
+    // 画像保存ボタン
     if (saveBtn && wrapper) {
         saveBtn.addEventListener('click', () => {
-            // alphaTabが描画しているCanvas要素を探す
             const canvas = wrapper.querySelector('canvas');
             if (!canvas) {
                 alert("まだ描画されていません。");
                 return;
             }
             try {
-                // Canvasを画像データに変換
                 const imageURL = canvas.toDataURL("image/png");
-                // ダウンロード用のリンクを一時的に作ってクリック
                 const link = document.createElement('a');
                 link.href = imageURL;
-                link.download = 'my_tab_score.png'; // 保存ファイル名
+                link.download = 'my_tab_score.png';
                 link.click();
             } catch (e) {
                 alert("画像の保存に失敗しました。ブラウザの制限の可能性があります。");
                 console.error(e);
             }
+        });
+    }
+
+    // 拡大・縮小ボタン
+    if (expandBtn && renderContainer) {
+        expandBtn.addEventListener('click', () => {
+            // クラスを付け替え
+            renderContainer.classList.toggle('expanded-mode');
+            const isExpanded = renderContainer.classList.contains('expanded-mode');
+
+            if (isExpanded) {
+                expandBtn.innerHTML = "⤡ 縮小";
+                // 拡大時は背景スクロールを完全に禁止
+                document.body.style.overflow = "hidden";
+            } else {
+                expandBtn.innerHTML = "⤢ 拡大";
+                // 元に戻す（bodyのCSS設定に従う）
+                document.body.style.overflow = "";
+            }
+
+            // コンテナサイズが変わるので、alphaTabに再計算させる
+            api.settings.display.scale = calculateScale();
+            api.updateSettings();
+            api.render();
         });
     }
 
