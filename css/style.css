@@ -2,15 +2,15 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    /* スマホのアドレスバー対策：dvhを使う */
+    height: 100dvh;
     font-family: sans-serif;
-    overflow: hidden;
+    overflow: hidden; /* 画面全体のスクロールを禁止 */
 }
 
-/* --- PC向けの基本設定 --- */
-
-/* 上段：入力エリア (PCは35%) */
+/* --- 上段：入力エリア --- */
 #editor-container {
+    /* PCは35%、スマホは後述の設定で上書き */
     height: 35%;
     width: 100%;
     display: flex;
@@ -21,11 +21,13 @@ body {
     background: #f4f4f4;
 }
 
+/* ヘッダー（ボタンなど）を絶対に潰さない設定 */
 .header-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 5px;
+    flex-shrink: 0; /* ←これ重要！縮小させない */
 }
 
 h2 {
@@ -34,33 +36,20 @@ h2 {
     color: #333;
 }
 
-/* ボタンをまとめるグループ */
-.button-group {
-    display: flex;
-    gap: 10px; /* ボタン間の隙間 */
-}
-
-/* 共通ボタンデザイン */
-button {
-    padding: 5px 15px;
+#copy-btn {
+    padding: 6px 15px;
     font-size: 0.9rem;
     cursor: pointer;
+    background-color: #007bff;
+    color: white;
     border: none;
     border-radius: 4px;
-    color: white;
-    transition: opacity 0.2s;
+    white-space: nowrap; /* ボタンの文字を折り返さない */
 }
-button:hover { opacity: 0.9; }
-button:active { opacity: 0.8; }
-
-/* コピーボタン（青） */
-#copy-btn { background-color: #007bff; }
-/* 画像保存ボタン（緑） */
-.accent-btn { background-color: #28a745; }
-
 
 textarea {
     flex-grow: 1;
+    min-height: 0; /* ←これ重要！フレックスボックス内ではみ出しを防ぐ */
     font-family: monospace;
     padding: 10px;
     resize: none;
@@ -69,22 +58,33 @@ textarea {
     border-radius: 4px;
 }
 
-/* 下段：表示エリア (PCは残り65%) */
+/* --- 下段：表示エリア --- */
 #render-container {
     height: 65%;
     width: 100%;
-    overflow-y: auto;
-    padding: 20px;
+    overflow-y: auto; /* 縦スクロール許可 */
+    padding: 20px 10px; /* スマホ用に左右の余白を少し減らす */
     box-sizing: border-box;
     background-color: #fff;
-    text-align: center; /* 画像保存時に中央寄せになるように */
+    /* スクロールを滑らかに */
+    -webkit-overflow-scrolling: touch;
 }
 
-/* --- スマホ向けの調整 (画面幅が768px以下の場合) --- */
+/* --- スマホ向けの調整 (画面幅が768px以下) --- */
 @media screen and (max-width: 768px) {
-    #editor-container { height: 50%; padding: 10px; }
-    #render-container { height: 50%; padding: 5px; } /* パディングを狭く */
-    h2 { font-size: 1rem; }
-    button { font-size: 0.8rem; padding: 5px 10px; }
-    textarea { font-size: 16px; }
+    #editor-container {
+        height: 50%; /* 画面の半分 */
+        padding: 10px;
+        padding-top: 15px; /* 上端がギリギリにならないように少し余白 */
+    }
+    #render-container {
+        height: 50%; /* 残り半分 */
+        padding: 10px 5px;
+    }
+    h2 {
+        font-size: 1rem;
+    }
+    textarea {
+        font-size: 16px; /* スマホで文字入力しやすいサイズ */
+    }
 }
